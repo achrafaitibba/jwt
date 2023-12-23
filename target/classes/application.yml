@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/jwt
+    jdbc-url: jdbc:mysql://localhost:3306/jwt
+    username: root
+    password: achraf
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+
+app:
+  security:
+    jwt:
+      secret-key: d15230087c7875d3a253fd32f7418484734cb32e813eef58ac594467f1488ce8
+      expiration: 60000 # a day use: 86400000
+      refresh-token:
+        expiration: 180000 # 7 days
