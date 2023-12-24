@@ -1,5 +1,6 @@
 package com.achrafaitibba.jwt.configuration.authenticationConfiguration;
 
+import com.achrafaitibba.jwt.JwtApplication;
 import com.achrafaitibba.jwt.configuration.token.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ public class LogoutService implements LogoutHandler {
     public void logout(HttpServletRequest request,
                        HttpServletResponse response,
                        Authentication authentication) {
+        System.out.println(getClass().getName() + "logout" + "\n" + JwtApplication.count++);
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         if(authHeader == null || !authHeader.startsWith("Bearer ")){

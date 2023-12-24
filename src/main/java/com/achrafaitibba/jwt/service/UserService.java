@@ -1,5 +1,6 @@
 package com.achrafaitibba.jwt.service;
 
+import com.achrafaitibba.jwt.JwtApplication;
 import com.achrafaitibba.jwt.configuration.token.JwtService;
 import com.achrafaitibba.jwt.configuration.token.Token;
 import com.achrafaitibba.jwt.configuration.token.TokenRepository;
@@ -28,6 +29,8 @@ public class UserService {
     private final TokenRepository tokenRepository;
 
     public UserResponse register(User user) {
+        System.out.println(getClass().getName() + "register" + "\n" + JwtApplication.count++);
+
         User toSave = userRepository.save(User.builder()
                         .username(user.getUsername())
                         .password(passwordEncoder.encode(user.getPassword()))
@@ -50,6 +53,8 @@ public class UserService {
 
     //use it to revoke all previous tokens for a new authentication
     private void revokeAllUserTokens(User user) {
+        System.out.println(getClass().getName() + "revokeAllUserTokens" + "\n" + JwtApplication.count++);
+
         var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getUsername());
         if (validUserTokens.isEmpty())
             return;
@@ -67,6 +72,8 @@ public class UserService {
     public void refreshToken(HttpServletRequest request,
                              HttpServletResponse response
     ) throws Exception {
+        System.out.println(getClass().getName() + "refreshToken" + "\n" + JwtApplication.count++);
+
         final String authHeader = request.getHeader("Authorization");
         final String refreshToken;
         final String username;

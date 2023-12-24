@@ -37,7 +37,7 @@ public class JwtService {
     }
 
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
-        System.out.println(getClass().getName() + "/" + "extractClaim with params" + "\n" + JwtApplication.count++);
+        System.out.println(getClass().getName() + "/" + "extractClaim with 3 params" + "\n" + JwtApplication.count++);
 
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -52,7 +52,7 @@ public class JwtService {
             Map<String,Object> extraClaims,
             UserDetails userDetails
     ){
-        System.out.println(getClass().getName() + "/" + "generateToken with params" + "\n" + JwtApplication.count++);
+        System.out.println(getClass().getName() + "/" + "generateToken with 2 params" + "\n" + JwtApplication.count++);
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
     public String generateRefreshToken(
