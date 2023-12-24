@@ -23,11 +23,11 @@ public class SecurityConfigurationFilter {
 
     private final JwtAuthenticationFIlter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
+    private final LogoutService logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
-        System.out.println(getClass().getName() + "/" + "SecurityFilterChain" + "\n" + JwtApplication.count++);
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "SecurityFilterChain" + "\n");
 
 
         httpSecurity
@@ -38,7 +38,8 @@ public class SecurityConfigurationFilter {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/register",
-                        "/api/refresh-token"
+                        "/api/refresh-token",
+                        "/api/authenticate"
                 )
                 .permitAll()
                 .anyRequest()
@@ -58,6 +59,7 @@ public class SecurityConfigurationFilter {
                          response,
                          authentication) ->
                         SecurityContextHolder.clearContext())
+
         ;
         return httpSecurity.build();
     }

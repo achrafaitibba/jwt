@@ -35,32 +35,46 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
+        System.out.println("xxxxxxxxxxxxxxxxxxx User().getPassword xxxxxxxxxxxxxxxxxxxxx 1\n");
         return password;
     }
 
     @Override
     public String getUsername() {
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().getUsername xxxxxxxxxxxxxxxxxxxxxxxx 2\n");
         return username;
     }
 
+    //todo understand this one and all the method below
+    // It gives forbidden if set to false
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonExpired xxxxxxxxxxxxxxxxxxxxxxxx 3\n");
+
+        return true;
     }
 
+    //todo understand this one
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonLocked xxxxxxxxxxxxxxxxxxxxxxxxxxx 4\n");
+        return true;
     }
 
+    //todo understand this one
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isCredentialsNonExpired xxxxxxxxxxxxxxxxxxxxxxxxxxx 5\n");
+
+        return true;
     }
 
+    //todo understand this one
     @Override
     public boolean isEnabled() {
-        return false;
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isEnabled xxxxxxxxxxxxxxxxxxxxxxxx 6\n");
+
+        return true;
     }
 
 }

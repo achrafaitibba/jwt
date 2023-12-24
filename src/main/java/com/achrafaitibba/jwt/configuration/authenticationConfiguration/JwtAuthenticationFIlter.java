@@ -32,18 +32,20 @@ public class JwtAuthenticationFIlter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        System.out.println(getClass().getName() + "/" + "doFilterInternal" + "\n" + JwtApplication.count++);
-
-
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "doFilterInternal" + "\n");
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
+            // It will go to the next filter in the filterChain, because all filters are chained (Invoke the next filter)
+            // The last element of the chain is the target resource/servlet.
             filterChain.doFilter(request, response);
-            return;
+            return ; // empty return: means the program will not execute the rest of the code
         }
         jwt = authHeader.substring(7); // 7 = "Bearer".length + 1 , space
-        // extract user email from JWT token; because we set the email as username in the user Model
+        // extract username
+        // "could be email/ID or any attribute set to be username in UserDetails instance" from JWT token;
+        // in this case I set username in the user Model
         username = jwtService.extractUsername(jwt);
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

@@ -24,14 +24,14 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        System.out.println(getClass().getName() + "/" + "UserDetailsService" + "\n" + JwtApplication.count++);
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "UserDetailsService" + "\n" );
         return username -> accountRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        System.out.println(getClass().getName() + "/" + "AuthenticationProvider" + "\n" + JwtApplication.count++);
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "AuthenticationProvider" + "\n");
 
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
@@ -42,13 +42,13 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception{
-        System.out.println(getClass().getName() + "/" + "AuthenticationManager" + "\n" + JwtApplication.count++);
+        System.out.println(JwtApplication.count++ + "/ " +  getClass().getName() + "/" + "AuthenticationManager" + "\n");
         return config.getAuthenticationManager();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        System.out.println(getClass().getName() + "/" + "PasswordEncoder" + "\n"+ JwtApplication.count++ );
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "PasswordEncoder");
 
 
         return new BCryptPasswordEncoder();

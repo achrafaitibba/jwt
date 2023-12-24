@@ -17,6 +17,6 @@ app:
       # https://seanwasere.com/generate-random-hex/
       # 256 bit 32 Byte Hex
       secret-key: d15230087c7875d3a253fd32f7418484734cb32e813eef58ac594467f1488ce8
-      expiration: 60000 # a day use: 86400000 ms
+      expiration: 18000000 # to have it valid for a day use: 86400000 ms
       refresh-token:
-        expiration: 180000 # 7 days
+        expiration: 180000000

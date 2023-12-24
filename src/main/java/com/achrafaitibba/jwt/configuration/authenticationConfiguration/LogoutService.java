@@ -19,7 +19,7 @@ public class LogoutService implements LogoutHandler {
     public void logout(HttpServletRequest request,
                        HttpServletResponse response,
                        Authentication authentication) {
-        System.out.println(getClass().getName() + "logout" + "\n" + JwtApplication.count++);
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "logout" + "\n" );
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
