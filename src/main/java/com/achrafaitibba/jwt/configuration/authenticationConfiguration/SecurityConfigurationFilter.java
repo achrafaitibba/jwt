@@ -48,7 +48,8 @@ public class SecurityConfigurationFilter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) //enable frames, I used it for swagger documentation
+                //enable frames, I used it for swagger documentation to put it inside an IFRAME tag
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
@@ -59,7 +60,6 @@ public class SecurityConfigurationFilter {
                          response,
                          authentication) ->
                         SecurityContextHolder.clearContext())
-
         ;
         return httpSecurity.build();
     }

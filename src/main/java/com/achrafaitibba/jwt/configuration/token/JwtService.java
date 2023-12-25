@@ -6,8 +6,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -16,7 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${app.security.jwt.secret-key}")
@@ -27,6 +32,7 @@ public class JwtService {
 
     @Value("${app.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+    private final TokenRepository tokenRepository;
 
     //todo 1 > remove hashmap of the others
     /*public String generateToken(UserDetails userDetails){
@@ -118,6 +124,22 @@ public class JwtService {
 //                .parseClaimsJwt(token)
 //                .getBody();
     }
+    //use it to revoke all previous tokens for a new authentication
+    public void revokeAllUserTokens(String userName) {
+        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "revokeAllUserTokens" + "\n");
 
+        var validUserTokens = tokenRepository.findAllValidTokensByUser(userName);
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens
+                .stream()
+                .map(t -> {
+                    t.setExpired(true);
+                    t.setRevoked(true);
+                    return t;
+                })
+                .collect(toList());
+        tokenRepository.saveAll(validUserTokens);
+    }
 
 }

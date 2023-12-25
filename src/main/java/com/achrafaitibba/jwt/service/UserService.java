@@ -40,6 +40,7 @@ public class UserService {
                 .username(user.getUsername())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build());
+        //todo what are the other type of claims we could send to client beside IDs...
         // Instead of initiating an empty hashmap you can create a list of claims and add them to the hashmap
         // Such as birthdate, account status... and any other data needed to be sent to the client whiting the token
         // Example:
@@ -69,14 +70,14 @@ public class UserService {
         );
         var jwtToken = jwtService.generateToken(new HashMap<>(), toAuthenticate.get());
         var refreshToken = jwtService.generateRefreshToken(toAuthenticate.get());
-        revokeAllUserTokens(user);
+        //todo 2, ignore revoking previous tokens in case user is connected in another device
+        //revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return new UserResponse(user.getUsername(), jwtToken, refreshToken);
 
     }
 
 
-    //todo move this to token package ?
     private void saveUserToken(User user, String jwtToken) {
         System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "saveUserToken" + "\n");
         var token = Token.builder()
@@ -89,26 +90,8 @@ public class UserService {
         tokenRepository.save(token);
     }
 
-    //use it to revoke all previous tokens for a new authentication
-    //todo should it be a part of the jwt service ?
-    private void revokeAllUserTokens(User user) {
-        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "revokeAllUserTokens" + "\n");
 
-        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getUsername());
-        if (validUserTokens.isEmpty())
-            return;
-        validUserTokens
-                .stream()
-                .map(t -> {
-                    t.setExpired(true);
-                    t.setRevoked(true);
-                    return t;
-                })
-                .collect(toList());
-        tokenRepository.saveAll(validUserTokens);
-    }
 
-    //todo should it be a part of the jwt service ?
     public void refreshToken(HttpServletRequest request,
                              HttpServletResponse response
     ) throws Exception {
@@ -127,7 +110,7 @@ public class UserService {
             var user = this.userRepository.findByUsername(username).orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var newToken = jwtService.generateToken(new HashMap<>(), user);
-                revokeAllUserTokens(user);
+                jwtService.revokeAllUserTokens(user.getUsername());
                 saveUserToken(user, newToken);
                 var _response = new UserResponse(username, newToken, refreshToken);
                 new ObjectMapper()

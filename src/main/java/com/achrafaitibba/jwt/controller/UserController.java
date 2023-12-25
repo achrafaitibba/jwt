@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    //todo authenticate
-    //todo revoke all tokens
+
     //todo use roles and authorization
-    //todo authenticate should not revoke previous tokens, to keep account opened in other devices;
-    //todo logout should have two options "logout from this device, logout from all devices"
     @PostMapping("/register")
     public UserResponse register(@RequestBody User user){
         JwtApplication.count = 1;
