@@ -2,7 +2,6 @@ package com.achrafaitibba.jwt.configuration.authenticationConfiguration;
 
 
 
-import com.achrafaitibba.jwt.JwtApplication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 
 @Configuration
@@ -24,17 +22,16 @@ public class SecurityConfigurationFilter {
     private final JwtAuthenticationFIlter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutService logoutHandler;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
-        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "SecurityFilterChain" + "\n");
-
-
         httpSecurity
+                /** to allow cors from all origins */
                 .csrf()
                 .disable()
-                .cors() // to allow cors from all origins
+                .cors()
+                /////////////////
                 .and()
+                /** authorized endpoints: doesn't require authentication */
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/register",
@@ -42,13 +39,16 @@ public class SecurityConfigurationFilter {
                         "/api/authenticate"
                 )
                 .permitAll()
+                //////////////////////
+                /** ask authentication for any other request */
                 .anyRequest()
                 .authenticated()
                 .and()
+                ////////////////////////////
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                //enable frames, I used it for swagger documentation to put it inside an IFRAME tag
+                /** enable frames, I used it for swagger documentation to put it inside an IFRAME tag */
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,12 +1,10 @@
 package com.achrafaitibba.jwt.configuration.authenticationConfiguration;
 
 
-import com.achrafaitibba.jwt.JwtApplication;
 import com.achrafaitibba.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,15 +23,12 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "UserDetailsService" + "\n" );
         return username -> accountRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "AuthenticationProvider" + "\n");
-
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -43,15 +38,11 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception{
-        System.out.println(JwtApplication.count++ + "/ " +  getClass().getName() + "/" + "AuthenticationManager" + "\n");
         return config.getAuthenticationManager();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "/" + "PasswordEncoder");
-
-
         return new BCryptPasswordEncoder();
     }
 

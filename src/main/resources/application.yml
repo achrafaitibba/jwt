@@ -8,7 +8,7 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+  #database-platform: org.hibernate.dialect.MySQLDialect
 
 app:
   security:

@@ -35,13 +35,11 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        System.out.println("xxxxxxxxxxxxxxxxxxx User().getPassword xxxxxxxxxxxxxxxxxxxxx 1\n");
         return password;
     }
 
     @Override
     public String getUsername() {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().getUsername xxxxxxxxxxxxxxxxxxxxxxxx 2\n");
         return username;
     }
 
@@ -49,28 +47,21 @@ public class User implements UserDetails {
     // It gives forbidden if set to false when authenticating
     @Override
     public boolean isAccountNonExpired() {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonExpired xxxxxxxxxxxxxxxxxxxxxxxx 3\n");
-
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonLocked xxxxxxxxxxxxxxxxxxxxxxxxxxx 4\n");
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isCredentialsNonExpired xxxxxxxxxxxxxxxxxxxxxxxxxxx 5\n");
-
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isEnabled xxxxxxxxxxxxxxxxxxxxxxxx 6\n");
-
         return true;
     }
 
