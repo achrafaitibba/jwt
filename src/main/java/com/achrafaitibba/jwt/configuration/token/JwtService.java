@@ -125,6 +125,8 @@ public class JwtService {
 //                .getBody();
     }
     //use it to revoke all previous tokens for a new authentication
+    //todo 3 I did move it to here to avoid dependencies circle, previous version takes "user" param
+    //todo should it be in userService again ?
     public void revokeAllUserTokens(String userName) {
         System.out.println(JwtApplication.count++ + "/ " + getClass().getName() + "revokeAllUserTokens" + "\n");
 

@@ -36,7 +36,7 @@ public class LogoutService implements LogoutHandler {
         if(logout.toUpperCase().equals(LogoutMode.ALL_DEVICES.getMode())){
             String username = jwtService.extractUsername(jwt);
             jwtService.revokeAllUserTokens(username);
-        }else if(logout.toUpperCase().equals(LogoutMode.Current_Device.getMode())){
+        }else if(logout.toUpperCase().equals(LogoutMode.CURRENT_DEVICE.getMode())){
             var storedToken = ITokenRepository.findByToken(jwt)
                     .orElse(null);
             if(storedToken != null){

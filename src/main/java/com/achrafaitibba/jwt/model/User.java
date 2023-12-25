@@ -45,8 +45,8 @@ public class User implements UserDetails {
         return username;
     }
 
-    //todo understand this one and all the method below
-    // It gives forbidden if set to false
+    //todo understand this one and all the methods below
+    // It gives forbidden if set to false when authenticating
     @Override
     public boolean isAccountNonExpired() {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonExpired xxxxxxxxxxxxxxxxxxxxxxxx 3\n");
@@ -54,14 +54,12 @@ public class User implements UserDetails {
         return true;
     }
 
-    //todo understand this one
     @Override
     public boolean isAccountNonLocked() {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isAccountNonLocked xxxxxxxxxxxxxxxxxxxxxxxxxxx 4\n");
         return true;
     }
 
-    //todo understand this one
     @Override
     public boolean isCredentialsNonExpired() {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx User().isCredentialsNonExpired xxxxxxxxxxxxxxxxxxxxxxxxxxx 5\n");
@@ -69,7 +67,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    //todo understand this one
     @Override
     public boolean isEnabled() {
         System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx User().isEnabled xxxxxxxxxxxxxxxxxxxxxxxx 6\n");
