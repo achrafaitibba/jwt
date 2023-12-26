@@ -43,8 +43,6 @@ public class User implements UserDetails {
         return username;
     }
 
-    //todo understand this one and all the methods below
-    // It gives forbidden if set to false when authenticating
     @Override
     public boolean isAccountNonExpired() {
         return true;
